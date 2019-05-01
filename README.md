@@ -122,60 +122,57 @@ let event = {
 ```javascript
 let draws = {
     "drawExit":function(position, size){
-        let circle = document.createElementNS(svgns,"circle");
-		circle.setAttributeNS(null,"stroke", "black");
+	let circle = document.createElementNS(svgns,"circle");
+		circle.setAttributeNS(null,"stroke", "blue");
 		circle.setAttributeNS(null,"stroke-width", "1");
-		circle.setAttributeNS(null,"fill", "black");
+		circle.setAttributeNS(null,"fill", "blue");
 		circle.setAttributeNS(null,"cx", position.x);
 		circle.setAttributeNS(null,"cy", position.y); 
 		circle.setAttributeNS(null,"r", size); 
 		return circle;
-    },
-    "drawLine":function(start, end){
-        let line = document.createElementNS(svgns,"line");
+	},
+	"drawLine":function(start, end){
+	let line = document.createElementNS(svgns,"line");
 		line.setAttributeNS(null, "x1", start.x);
 		line.setAttributeNS(null, "y1", start.y);
 		line.setAttributeNS(null, "x2", end.x);
 		line.setAttributeNS(null, "y2", end.y);
-		line.style.stroke = "black";
-		line.style.opacity = 0.5;
+		line.style.stroke = "red";
+		line.style.opacity = 1;
 		return line;
-    },
-    "drawArrow":function(position){/*position.t for theta*/
-        let g = document.createElementNS(svgns,"g");
-		let left = generateLine(end_position, {"x":end_position.x+(area_size/16),"y":end_position.y+(area_size/16)})
-		let right = generateLine(end_position, {"x":end_position.x+(area_size/16),"y":end_position.y-(area_size/16)})
+	},
+	"drawArrow":function(position, areaSize){/*position.t for theta*/
+	let g = document.createElementNS(svgns,"g");
+		let left = explorerObject.draws.drawLine(position, {"x":position.x+(areaSize/32),"y":position.y+(areaSize/32)})
+		let right = explorerObject.draws.drawLine(position, {"x":position.x+(areaSize/32),"y":position.y-(areaSize/32)})
 		g.appendChild(left);
 		g.appendChild(right);
-		g.setAttributeNS(null, "transform", "rotate("+(end_position.t*180/Math.PI)+" "+end_position.x+" "+end_position.y+")");  //rotate pointing to area node
+		g.setAttributeNS(null, "transform", "rotate("+(position.t*180/Math.PI)+" "+position.x+" "+position.y+")");  //rotate pointing to area node
 		return g;
-    },
-    "drawArea":function(position, isHighlighted){
-        //border
+	},
+	"drawArea":function(position, isHighlighted, areaSize, textSize, label){
+	//border
 		let circle = document.createElementNS(svgns,"circle");
 		circle.setAttributeNS(null,"stroke", "black");
 		circle.setAttributeNS(null,"stroke-width", "1");
 		if(isHighlighted)
-			circle.setAttributeNS(null,"fill", "yellow");
+			circle.setAttributeNS(null,"fill", "orange");
 		else
-			circle.setAttributeNS(null,"fill", "white");
+			circle.setAttributeNS(null,"fill", "wheat");
 		circle.setAttributeNS(null,"cx", position.x);
 		circle.setAttributeNS(null,"cy", position.y); 
-		circle.setAttributeNS(null,"r", area_size/4); 
+		circle.setAttributeNS(null,"r", areaSize/4); 
 		//text
 		let text = document.createElementNS(svgns,"text");
-		text.setAttributeNS(null,"font-size", text_size);
+		text.setAttributeNS(null,"font-size", textSize);
 		text.setAttributeNS(null,"text-anchor", "middle"); //alignment-baseline
 		text.setAttributeNS(null,"alignment-baseline", "middle"); //
 		text.setAttributeNS(null,"x", position.x); //-map_size.neg_x
 		text.setAttributeNS(null,"y", position.y); 
-		//check if has label attribute
-		if(discovered[id].label)
-			text.appendChild(document.createTextNode(discovered[id].label));
-		else
-			text.appendChild(document.createTextNode(id));
+		text.appendChild(document.createTextNode(label));
+
 		return [circle,text];
-    }
+	}
 }
 ```
 ## Demo
