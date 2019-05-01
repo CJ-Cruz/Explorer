@@ -1,0 +1,128 @@
+<html>
+	<head>
+		<title>Interaction Demo</title>
+	</head>
+	<link rel="stylesheet" href="src/explorer.css">
+	<body>
+		<div id="interaction-demo-1" style="height: 50%; overflow: hidden;">
+			<div id="minimap" width="200" height="200"></div>
+			<div class="area" id="start" label="" up="" down="" left="" right="1">
+				<div class="area-content" style="background-color: lightgreen">
+					Start Area - only way is right
+				</div>
+			</div>
+			<div class="area" id="1" label="🔒" up="" down="" left="start" right="">
+				<div class="area-content" style="background-color: powderblue">
+					Path is locked.
+				</div>
+			</div>
+			<div class="area" id="2" label="" up="" down="" left="" right="">
+				<div class="area-content" style="display:flex; align-items:center">
+					<div style="width: 100%; text-align: center;">
+						<h1>Thank you for trying out Explorer!</h1>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="interaction-demo-2" style="height: 50%; overflow: hidden;-webkit-transition-duration: 0.5s; opacity: 0;">
+			<div id="minimap" width="200" height="200"></div>
+			<div class="area" id="start" label="" up="" down="" left="" right="1">
+				<div class="area-content" style="background-color: wheat">
+					Key is to the right.
+				</div>
+			</div>
+			<div class="area" id="1" label="🔑" up="" down="" left="start" right="">
+				<div class="area-content" style="background-color: lightyellow">
+					Key found.
+				</div>
+			</div>
+		</div>
+		
+	</body>
+	<script src="src/explorer.js"></script>
+	<script>
+		let explorer1;
+		let explorer2;
+		let explorerObject1 = {
+			
+			"events":{
+				
+				"1":{
+					
+					"onenter": function(variables, areas, currentArea, currentID){
+						
+						if(!variables["show_explorer_2"]){
+							explorer1.allowMovement(false);
+							//display explorer 2
+							setTimeout(function(){
+								currentArea.content.innerText += "\nGet the key in the bottom Explorer."
+								document.getElementById("interaction-demo-2").style.display = "block";
+								setTimeout(function(){
+									document.getElementById("interaction-demo-2").style.opacity = 1;
+									document.getElementById("interaction-demo-2").focus();
+									variables["show_explorer_2"] = true;
+									explorer1.allowMovement(true);
+								}, 1000)
+							}, 1000)
+						}
+						
+						if(variables["key"]){
+							//unlock path
+							variables["key"] = false;
+							//hide explorer 2
+							document.getElementById("interaction-demo-2").style.opacity = 0;
+							explorer1.setLabel(currentID, "");
+							areas[currentID].setAttribute("right", "2");
+							currentArea.content.innerText = "Path is unlocked. Go Right to finish."
+							
+						}
+						
+					},
+					
+				},
+				
+				"2":{
+					"onenter": function(variables, areas, currentArea, currentID){
+						document.querySelector("#interaction-demo-1>#minimap").style.display = "none";
+					}
+				}
+			
+			}
+			
+		
+		}
+		let explorerObject2 = {
+			
+			"events":{
+				
+				"1":{
+					
+					"onenter": function(variables, areas, currentArea, currentID){
+						
+						explorer2.allowMovement(false);
+						setTimeout(function(){
+							explorer2.setLabel(currentID,"");
+							explorer2.resetMap();
+						},1000)
+						setTimeout(function(){
+							//get key
+							explorer1.setVariable("key", true);	//.setVariable() retriggers "onenter" event of the Explorer that called the method.
+							document.getElementById("interaction-demo-1").focus();
+						}, 2000)
+						
+					},
+					
+				},
+			
+			}
+			
+		
+		}
+		
+		explorer1 = new Explorer(document.getElementById("interaction-demo-1"), explorerObject1);
+		explorer2 = new Explorer(document.getElementById("interaction-demo-2"), explorerObject2);
+		document.getElementById("interaction-demo-1").focus(); //set focus to top Explorer.
+		document.getElementById("interaction-demo-2").style.display = "none";
+		
+	</script>
+</html>

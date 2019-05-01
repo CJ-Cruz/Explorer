@@ -1,0 +1,152 @@
+<html>
+	<head>
+		<title>Events Demo</title>
+	</head>
+	<link rel="stylesheet" href="src/explorer.css">
+	<body>
+		<div id="events-demo" style="height: 50%; overflow: hidden;">
+			<div id="minimap" width="300" height="300"></div>
+			<div class="area" id="start" label="home" up="top" down="" left="" right="">
+				<div class="area-content">
+					Center Area - only way is up
+				</div>
+			</div>
+			<div class="area" id="top" label="🔒" up="" down="" left="" right="top-right">
+				<div class="area-content" style="background-color: powderblue">
+					Top - you cannot go down but you can go right
+				</div>
+			</div>
+			<div class="area" id="top-right" label="" up="" down="right" left="top" right="">
+				<div class="area-content" style="background-color: orange">
+					Top Right - you can go left and down
+				</div>
+			</div>
+			<div class="area" id="right" label="" up="" down="bottom-right" left="start" right="">
+				<div class="area-content" style="background-color: lightyellow">
+					Right - you can go left and down only
+				</div>
+			</div>
+			<div class="area" id="bottom-right" label="" up="" down="" left="bottom" right="">
+				<div class="area-content" style="background-color: lavender">
+					Bottom Right - you can go left only
+				</div>
+			</div>
+			<div class="area" id="bottom" label="🔑" up="start" down="" left="bottom-left" right="" highlighted>
+				<div class="area-content" style="background-color: pink">
+					Bottom - you can go up and left only
+				</div>
+			</div>
+			<div class="area" id="bottom-left" label="" up="left" down="" left="" right="bottom">
+				<div class="area-content" style="background-color: wheat">
+					Bottom Left - you can go up and right only
+				</div>
+			</div>
+			<div class="area" id="left" label="" up="top-left" down="" left="" right="start">
+				<div class="area-content" style="background-color: lightgreen">
+					Left - you can go up only
+				</div>
+			</div>
+			<div class="area" id="top-left" label="" up="bottom-left" down="" left="" right="start" hidden>
+				<div class="area-content" style="background-color: lightgray">
+					Top Left - you can go up to teleport you to Bottom Left and right to jump to Center
+				</div>
+			</div>
+		</div>
+		
+	</body>
+	<script src="src/explorer.js"></script>
+	<script>
+		let explorer;	//create a variable to store the Explorer Object
+		
+		/*
+			The Explorer Object has 6 usable methods:
+				.resetMap() - processes changes in the areas and updates the minimap graphics.
+				.allowMovement(boolean, delay) - allows/prevents movement from one area to another. Starting value is true.
+					boolean: set to true to allow movement, false to disable movement. default true
+					delay: milliseconds before the change occurs. default 0
+				.setLabel(areaID, label) - allows change of label value of an area. Allows changing labels of links as well.
+					areaID: the ID of the area to modify.
+					label: the string to place in the area's label attribute.
+				.setVariable(id, value) - allows change of an Explorer's variable.
+					id: the name of the variable.
+					value: the variable's new value.
+				.setEvent(events) - allows updating of events of those only specified.
+					event: {areaId:{onenter:fn, onleave:fn}}
+				.setDraws(draws) - allows updating minimap SVG graphics. Visit previous demo for example.
+					draws: {drawExit:fn, drawLine:fn, drawArrow:fn, drawArea:fn}
+		*/
+		
+		let explorerObject = {
+			
+			//The events are used to modify the Explorer by entering or by leaving an area.
+			"events":{
+				//first identify the id of the area to bind an event to
+				"bottom":{
+					/*
+						Setup the onenter event
+						The onenter and onleave event has 4 variables:
+							variables - allows getting/setting a variable within an Explorer.
+							areas - an object containing all areas in the element to which the Explorer is contained.
+							currentArea - the current area where the Explorer is at. Not a shorthand of areas[currentID].
+							currentID - the ID of the area the Explorer is currently at, before leaving or upon entering.
+						
+						Note: The difference between currentArea and areas[currentID] is that the currentArea is the viewport where children of the areas[currentID] are transferred to, and it does not have the attributes of the area element.
+					*/
+					"onenter": function(variables, areas, currentArea, currentID){
+						
+						if(!variables["key"]){
+							variables["key"] = true;//create/set the variable "key"
+							explorer.allowMovement(false);//disable movement for map update before movement;
+							setTimeout(function(){
+								areas[currentID].removeAttribute("highlighted");//remove highlight from the area element
+								explorer.setLabel("bottom", "");//rename minimap label back to original
+								explorer.resetMap();//refresh the minimap for updates
+								currentArea.content.innerText = "Picked up a key.";//perform changes to the area's content
+								areas[currentID].setAttribute("up","")//remove path going to center
+								areas["left"].setAttribute("right","")//remove path going to center
+								explorer.allowMovement(true);//enable movement.
+							},500)
+							
+						}
+						
+					},
+					"onleave": function(variables, areas, currentArea, currentID){
+						
+						//change the area's content again
+						currentArea.content.innerText = "Bottom - you can go left only";
+						
+					},
+					
+				},
+				"top":{
+					
+					"onenter":function(variables, areas, currentArea, currentID){
+						
+						//check for key
+						if(variables["key"]){
+							variables["key"] = false;//remove key
+							explorer.allowMovement(false);//disable movement for map update before movement;
+							setTimeout(function(){
+								explorer.setLabel("top","");//remove label
+								areas[currentID].setAttribute("up", "9-demo-interaction.html");//add path to Up
+								explorer.setLabel("9-demo-interaction.html","Next Demo");//change link's label
+								currentArea.content.innerText += "\nGo Up to proceed to the next Demo.";//change area's content
+								areas["top-left"].setAttribute("hidden","")//hide top-left area again
+								explorer.allowMovement(true);//enable movement.
+							},500)
+							
+						}
+					
+					},
+					
+				},
+			
+			}
+			
+		
+		}
+		
+		explorer = new Explorer(document.getElementById("events-demo"));
+		explorer.setEvents(explorerObject.events);
+	</script>
+</html>

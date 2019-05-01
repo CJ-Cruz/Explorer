@@ -1,0 +1,64 @@
+<html>
+	<head>
+		<title>Bare Demo</title>
+	</head>
+	<link rel="stylesheet" href="src/explorer.css">
+	<body>
+		<div class="area" id="start" label="" up="top" down="" left="" right="">
+			<div class="area-content">
+				Center Area - only way is up
+			</div>
+		</div>
+		<div class="area" id="top" label="" up="" down="" left="" right="top-right">
+			<div class="area-content" style="background-color: powderblue">
+				Top - you cannot go down but you can go right<br>
+				Please go Right.
+			</div>
+		</div>
+		<div class="area" id="top-right" label="" up="" down="right" left="top" right="">
+			<div class="area-content" style="background-color: orange">
+				Top Right - you can go left and down<br>
+				Please go Down.
+			</div>
+		</div>
+		<div class="area" id="right" label="" up="" down="bottom-right" left="start" right="">
+			<div class="area-content" style="background-color: lightyellow">
+				Right - you can go left and down only<br>
+				Please go Down.
+			</div>
+		</div>
+		<div class="area" id="bottom-right" label="" up="" down="" left="bottom" right="">
+			<div class="area-content" style="background-color: lavender">
+				Bottom Right - you can go left only<br>
+				Please go Left.
+			</div>
+		</div>
+		<div class="area" id="bottom" label="" up="start" down="" left="bottom-left" right="">
+			<div class="area-content" style="background-color: pink">
+				Bottom - you can go up and left only<br>
+				Please go Left.
+			</div>
+		</div>
+		<div class="area" id="bottom-left" label="" up="left" down="" left="" right="bottom">
+			<div class="area-content" style="background-color: wheat">
+				Bottom Left - you can go up and right only<br>
+				Please go Up.
+			</div>
+		</div>
+		<div class="area" id="left" label="" up="top-left" down="" left="" right="start">
+			<div class="area-content" style="background-color: lightgreen">
+				Left - you can go up and right only<br>
+				Please go Up.
+			</div>
+		</div>
+		<div class="area" id="top-left" label="" up="bottom-left" down="" left="2-demo-embedding.html" right="start">
+			<div class="area-content" style="background-color: lightgray">
+				Top Left - you can go up to teleport you to Bottom Left and right to jump to Center<br>
+				Go Left to proceed to the next Demo.
+			</div>
+		</div>
+		
+	</body>
+	<script src="src/explorer.js"></script>
+	<script>new Explorer();</script>
+</html>

@@ -1,0 +1,68 @@
+<html>
+	<head>
+		<title>Areas Demo</title>
+	</head>
+	<link rel="stylesheet" href="src/explorer.css">
+	<body>
+		<div id="areas-demo" style="height: 50%; overflow: hidden;">
+			<div id="minimap" width="300" height="300"></div>
+			<!--
+				An area can be further customized with the following attributes:
+					label - change the name appearing in the minimap.
+					hidden - doesn't show arrows in viewport, and paths and nodes in minimap. If found, hidden attribute will be gone. Start area cannot be hidden.
+					highlighted - has a different color appearing in the minimap.
+					position - set the permanent position of an area. Affects both minimap and sliding animation. Must be x and y values separated by comma.
+					static - doesn't follow the standard sliding animation from one area to another. The animation is based on the direction used. Good for teleporting.
+			-->
+			<div class="area" id="start" label="home" up="top" down="" left="" right="">
+				<div class="area-content">
+					Center Area - only way is up
+				</div>
+			</div>
+			<div class="area" id="top" label="" up="5-demo-links.html" down="" left="" right="top-right" position="0,-150">
+				<div class="area-content" style="background-color: powderblue">
+					Top - you cannot go down but you can go right<br>
+					Go Up to proceed to the next Demo.
+				</div>
+			</div>
+			<div class="area" id="top-right" label="" up="" down="right" left="top" right="" position="100,-100">
+				<div class="area-content" style="background-color: orange">
+					Top Right - you can go left and down
+				</div>
+			</div>
+			<div class="area" id="right" label="" up="" down="bottom-right" left="start" right="">
+				<div class="area-content" style="background-color: lightyellow">
+					Right - you can go left and down only
+				</div>
+			</div>
+			<div class="area" id="bottom-right" label="" up="" down="" left="bottom" right="">
+				<div class="area-content" style="background-color: lavender">
+					Bottom Right - you can go left only
+				</div>
+			</div>
+			<div class="area" id="bottom" label="" up="start" down="" left="bottom-left" right="" highlighted>
+				<div class="area-content" style="background-color: pink">
+					Bottom - you can go up and left only
+				</div>
+			</div>
+			<div class="area" id="bottom-left" label="" up="left" down="" left="" right="bottom" static>
+				<div class="area-content" style="background-color: wheat">
+					Bottom Left - you can go up and right only
+				</div>
+			</div>
+			<div class="area" id="left" label="" up="top-left" down="" left="" right="start">
+				<div class="area-content" style="background-color: lightgreen">
+					Left - you can go up and right only
+				</div>
+			</div>
+			<div class="area" id="top-left" label="" up="bottom-left" down="" left="" right="start" hidden>
+				<div class="area-content" style="background-color: lightgray">
+					Top Left - you can go up to teleport you to Bottom Left and right to jump to Center
+				</div>
+			</div>
+		</div>
+		
+	</body>
+	<script src="src/explorer.js"></script>
+	<script>new Explorer(document.getElementById("areas-demo"));</script>
+</html>

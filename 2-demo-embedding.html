@@ -1,0 +1,69 @@
+<html>
+	<head>
+		<title>Embedding Demo</title>
+	</head>
+	<link rel="stylesheet" href="src/explorer.css">
+	<body>
+		<!--
+			You can create an element and bind the Explorer to that element.
+			By default, the Explorer is binded automatically to document.body.
+			You can customize the style of the element where the Explorer is contained.
+			If you don't use overflow: hidden, the sliding animation will show outside the bounds of the element.
+		-->
+		<div id="embedding-demo" style="width: 50%; height: 50%; overflow: hidden;">
+			<div class="area" id="start" label="" up="top" down="" left="" right="">
+				<div class="area-content">
+					Center Area - only way is up
+				</div>
+			</div>
+			<div class="area" id="top" label="" up="3-demo-minimap.html" down="" left="" right="top-right">
+				<div class="area-content" style="background-color: powderblue">
+					Top - you cannot go down but you can go right<br>
+					Go Up to proceed to the next Demo.
+				</div>
+			</div>
+			<div class="area" id="top-right" label="" up="" down="right" left="top" right="">
+				<div class="area-content" style="background-color: orange">
+					Top Right - you can go left and down
+				</div>
+			</div>
+			<div class="area" id="right" label="" up="" down="bottom-right" left="start" right="">
+				<div class="area-content" style="background-color: lightyellow">
+					Right - you can go left and down only
+				</div>
+			</div>
+			<div class="area" id="bottom-right" label="" up="" down="" left="bottom" right="">
+				<div class="area-content" style="background-color: lavender">
+					Bottom Right - you can go left only
+				</div>
+			</div>
+			<div class="area" id="bottom" label="" up="start" down="" left="bottom-left" right="">
+				<div class="area-content" style="background-color: pink">
+					Bottom - you can go up and left only
+				</div>
+			</div>
+			<div class="area" id="bottom-left" label="" up="left" down="" left="" right="bottom">
+				<div class="area-content" style="background-color: wheat">
+					Bottom Left - you can go up and right only
+				</div>
+			</div>
+			<div class="area" id="left" label="" up="top-left" down="" left="" right="start">
+				<div class="area-content" style="background-color: lightgreen">
+					Left - you can go up and right only
+				</div>
+			</div>
+			<div class="area" id="top-left" label="" up="bottom-left" down="" left="" right="start">
+				<div class="area-content" style="background-color: lightgray">
+					Top Left - you can go up to teleport you to Bottom Left and right to jump to Center
+				</div>
+			</div>
+		</div>
+		
+	</body>
+	<script src="src/explorer.js"></script>
+	<script>
+		//You must define the element to contain the Explorer as the first parameter in the constructor.
+		//You cannot instantiate another Explorer in the same container.
+		new Explorer(document.getElementById("embedding-demo"));
+	</script>
+</html>

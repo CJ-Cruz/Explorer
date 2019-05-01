@@ -1,0 +1,74 @@
+<html>
+	<head>
+		<title>Constructor Demo</title>
+	</head>
+	<link rel="stylesheet" href="src/explorer.css">
+	<body>
+		<div id="constructor-demo" style="height: 50%; overflow: hidden;">
+			<div id="minimap" width="300" height="300"></div>
+			<div class="area" id="start" label="home" up="top" down="" left="" right="">
+				<div class="area-content">
+					Center Area - only way is up
+				</div>
+			</div>
+			<div class="area" id="top" label="" up="7-demo-drawings.html" down="" left="" right="top-right">
+				<div class="area-content" style="background-color: powderblue">
+					Top - you cannot go down but you can go right<br>
+					Go Up to proceed to the next Demo.
+				</div>
+			</div>
+			<div class="area" id="top-right" label="" up="" down="right" left="top" right="">
+				<div class="area-content" style="background-color: orange">
+					Top Right - you can go left and down
+				</div>
+			</div>
+			<div class="area" id="right" label="" up="" down="bottom-right" left="start" right="">
+				<div class="area-content" style="background-color: lightyellow">
+					Right - you can go left and down only
+				</div>
+			</div>
+			<div class="area" id="bottom-right" label="" up="" down="" left="bottom" right="">
+				<div class="area-content" style="background-color: lavender">
+					Bottom Right - you can go left only
+				</div>
+			</div>
+			<div class="area" id="bottom" label="" up="start" down="" left="bottom-left" right="" highlighted>
+				<div class="area-content" style="background-color: pink">
+					Bottom - you can go up and left only
+				</div>
+			</div>
+			<div class="area" id="bottom-left" label="" up="left" down="" left="" right="bottom">
+				<div class="area-content" style="background-color: wheat">
+					Bottom Left - you can go up and right only
+				</div>
+			</div>
+			<div class="area" id="left" label="" up="top-left" down="" left="" right="start">
+				<div class="area-content" style="background-color: lightgreen">
+					Left - you can go up and right only
+				</div>
+			</div>
+			<div class="area" id="top-left" label="" up="bottom-left" down="" left="" right="start" hidden>
+				<div class="area-content" style="background-color: lightgray">
+					Top Left - you can go up to teleport you to Bottom Left and right to jump to Center
+				</div>
+			</div>
+		</div>
+		
+	</body>
+	<script src="src/explorer.js"></script>
+	<script>
+		//The constructor uses an object for the second parameter. This contains options to further customize your Explorer.
+		let explorerObject = {
+			
+			//The options mainly interacts with the minimap
+			"options":{
+				"textSize":10,	//text size of the names in the minimap
+				"areaSize":100,	//size of the area node in the minimap, currently the radius of a node.
+				"areaDistance":150	//distance between two nodes in the minimap
+			}
+		
+		}
+		
+		new Explorer(document.getElementById("constructor-demo"), explorerObject);
+	</script>
+</html>
